@@ -4,10 +4,8 @@ namespace PrinceRai\CustomAuth\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -17,7 +15,6 @@ class RegisterController extends Controller
     public function index()
     {
         return view('custom-auth::register');
-
     }
 
     /**
@@ -36,12 +33,17 @@ class RegisterController extends Controller
                     'message' => "Email already registered"
                 ];
             }
-            $user = new User();
-            $data = $user->storeData($request);
+
+            // Manually creating the user
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
             return [
                 'status' => true,
-                'message' => "Registered successfully please Login",
+                'message' => "Registered successfully. Please login.",
                 'redirect' => route('login')
             ];
         } catch (\Exception $e) {
@@ -50,29 +52,5 @@ class RegisterController extends Controller
                 'message' => $e->getMessage()
             ];
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }
