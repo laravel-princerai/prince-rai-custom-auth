@@ -1,8 +1,8 @@
 <?php
 
 
-use App\Http\Controllers\Web\Auth\LoginController;
-use App\Http\Controllers\Web\Auth\RegisterController;
+use PrinceRai\CustomAuth\Controllers\LoginController;
+use PrinceRai\CustomAuth\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
