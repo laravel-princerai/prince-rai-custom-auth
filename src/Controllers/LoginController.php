@@ -36,14 +36,12 @@ class LoginController
                     'message' => "Incorrect Password"
                 ];
             }
-            if ($user->status === '0') {
-                return [
-                    'status' => false,
-                    'message' => "Your Account Is Not Activated"
-                ];
-            }
+
+            // Removed `status` column check
+
             Auth::login($user);
             $route = ($user->roleSlug === 'admin') ? route('admin.dashboard') : route('home');
+
             return [
                 'status' => true,
                 'message' => "Login Successfully",
