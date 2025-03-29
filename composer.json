@@ -1,0 +1,26 @@
+{
+    "name": "prince-rai/custom-auth",
+    "description": "Custom authentication package for Laravel by Prince Rai",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PrinceRai\\CustomAuth\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Prince Rai",
+            "email": "princerai5584@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "PrinceRai\\CustomAuth\\CustomAuthServiceProvider"
+            ]
+        }
+    }
+}
