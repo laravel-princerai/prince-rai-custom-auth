@@ -40,7 +40,7 @@ class LoginController
             // Removed `status` column check
 
             Auth::login($user);
-            $route = ($user->roleSlug === 'admin') ? route('admin.dashboard') : route('home');
+            $route = route('home', [], false) ? route('home') : url('/');
 
             return [
                 'status' => true,
@@ -64,5 +64,10 @@ class LoginController
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('login');
+    }
+    public function home()
+    {
+        return view('custom-auth::after-login');
+
     }
 }

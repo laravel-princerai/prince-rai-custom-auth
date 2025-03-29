@@ -22,3 +22,5 @@ Route::post('/custom-register',[RegisterController::class,'register'])->name('cu
 Route::get('/login',[LoginController::class,'index'])->name('login');
 Route::post('/custom-login',[LoginController::class,'authLogin'])->name('custom.login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+Route::get('/home', [LoginController::class, 'home'])->name('home');
