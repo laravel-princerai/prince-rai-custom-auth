@@ -48,10 +48,9 @@ Route::middleware(['web'])->group(function () {
     Route::post('/custom-login', [LoginController::class, 'authLogin'])->name('custom.login');
     Route::get('/register', [RegisterController::class, 'index'])->name('register');
     Route::post('/register', [RegisterController::class, 'register'])->name('custom.register');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::get('/home', [LoginController::class, 'home'])->name('home');
 });
-
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::get('/home', [LoginController::class, 'home'])->name('home');
 ```
 
 ### **Views**
@@ -83,4 +82,3 @@ composer remove prince-rai/custom-auth
 ## 📜 License
 
 This package is open-source and licensed under the [MIT License](LICENSE).
-
