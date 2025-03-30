@@ -16,11 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/register',[RegisterController::class,'index'])->name('register');
-Route::post('/custom-register',[RegisterController::class,'register'])->name('custom.register');
-
-Route::get('/login',[LoginController::class,'index'])->name('login');
-Route::post('/custom-login',[LoginController::class,'authLogin'])->name('custom.login');
+Route::middleware(['web'])->group(function () {
+    Route::get('/login', [LoginController::class, 'index'])->name('login');
+    Route::post('/custom-login', [LoginController::class, 'authLogin'])->name('custom.login');
+    Route::get('/register', [RegisterController::class, 'index'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register'])->name('custom.register');
+});
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/home', [LoginController::class, 'home'])->name('home');

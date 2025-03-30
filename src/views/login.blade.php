@@ -6,6 +6,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -29,6 +30,13 @@
 
 <script>
     $(document).ready(function () {
+        // Set CSRF token for AJAX requests
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         $('#loginForm').validate({
             rules: {
                 email: {
@@ -52,7 +60,7 @@
             },
             submitHandler: function (form) {
                 $.ajax({
-                    url: "{{ route('custom.login') }}",
+                    url: "{{ url('/custom-login') }}",  // Corrected AJAX route
                     type: "POST",
                     data: $(form).serialize(),
                     success: function (response) {
@@ -65,13 +73,21 @@
                             toastr.error(response.message);
                         }
                     },
-                    error: function () {
-                        toastr.error("Something went wrong.");
+                    error: function (xhr) {
+                        let errors = xhr.responseJSON.errors;
+                        if (errors) {
+                            $.each(errors, function (key, value) {
+                                toastr.error(value[0]);
+                            });
+                        } else {
+                            toastr.error("Something went wrong.");
+                        }
                     }
                 });
             }
         });
     });
 </script>
+
 </body>
 </html>

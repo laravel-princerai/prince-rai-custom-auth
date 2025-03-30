@@ -22,36 +22,33 @@ class LoginController
      */
     public function authLogin(Request $request)
     {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ]);
+
         try {
             $user = User::where('email', $request->email)->first();
+
             if (!$user) {
-                return [
-                    'status' => false,
-                    'message' => "Email Address Not Found"
-                ];
-            }
-            if (!Hash::check($request->password, $user->password)) {
-                return [
-                    'status' => false,
-                    'message' => "Incorrect Password"
-                ];
+                return response()->json(['status' => false, 'message' => "Email Address Not Found"]);
             }
 
-            // Removed `status` column check
+            if (!Hash::check($request->password, $user->password)) {
+                return response()->json(['status' => false, 'message' => "Incorrect Password"]);
+            }
 
             Auth::login($user);
-            $route = route('home', [], false) ? route('home') : url('/');
+            $request->session()->regenerate();
 
-            return [
+            return response()->json([
                 'status' => true,
                 'message' => "Login Successfully",
-                'redirect' => $route
-            ];
+                'redirect' => route('home')
+            ]);
+
         } catch (\Exception $e) {
-            return [
-                'status' => false,
-                'message' => $e->getMessage()
-            ];
+            return response()->json(['status' => false, 'message' => $e->getMessage()]);
         }
     }
 
